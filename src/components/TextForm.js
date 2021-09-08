@@ -7,6 +7,7 @@ function TextForm(props) {
   const handleUpClick = () => {
     let newText = text.toUpperCase();
     setText(newText);
+    props.showAlert("Converted to UpperCase!", "success");
   };
 
   const handleOnChange = (event) => {
@@ -15,27 +16,39 @@ function TextForm(props) {
   const handleLowClick = () => {
     let newText = text.toLowerCase();
     setText(newText);
+    props.showAlert("Converted to lowerCase!", "success");
+
   };
   const handleClearClick = (event) => {
     let newText = "";
     setText(newText);
+    props.showAlert("Text Cleared!", "success");
+
   };
 
   const handleCopy = () => {
     let text = document.getElementById("myBox");
     text.select();
     navigator.clipboard.writeText(text.value);
+    props.showAlert("Copied to Clipboard!", "success");
+
   };
 
   const handleExtraSpaces = () => {
     let newText = text.split(/[ ]+/);
-    setText(newText.join(' '))
-    }
-    
+    setText(newText.join(" "));
+    props.showAlert("Removed Extra Spaces!", "success");
+
+  };
 
   return (
     <>
-      <div className="container">
+      <div
+        className="container"
+        style={{
+          color: props.mode === "dark" ? "white" : "#042743",
+        }}
+      >
         <h1>{props.heading}</h1>
         <div class="mb-3">
           <label for="myBox" class="form-label">
@@ -45,6 +58,10 @@ function TextForm(props) {
             class="form-control"
             id="myBox"
             value={text}
+            style={{
+              backgroundColor: props.mode === "dark" ? "grey" : "white",
+              color: props.mode === "dark" ? "white" : "#042743",
+            }}
             onChange={handleOnChange}
             rows="8"
           ></textarea>
@@ -56,7 +73,12 @@ function TextForm(props) {
         <Button heading="Remove Extra Space" handleClick={handleExtraSpaces} />
       </div>
 
-      <div className="container my-4">
+      <div
+        className="container my-4"
+        style={{
+          color: props.mode === "dark" ? "white" : "#042743",
+        }}
+      >
         <h3>Your Text Summary </h3>
         <p>
           {" "}
@@ -65,7 +87,7 @@ function TextForm(props) {
         <p>{0.008 * text.split(" ").length} Minutes to read</p>
 
         <h3>Preview</h3>
-        <p>{text}</p>
+        <p>{text.length>0?text:"Enter Something to text box above and Preview it here"}</p>
       </div>
     </>
   );
